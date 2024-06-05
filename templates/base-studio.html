@@ -1,0 +1,121 @@
+{% load static %}
+{% load meta %}
+<!DOCTYPE html>
+<html lang="en-US">
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+   <head {% meta_namespaces %}>
+      <meta charset="utf-8" />
+
+      {% include "meta/meta.html"%}
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="referrer" content="always" />
+      <link rel="canonical" href="{{request.build_absolute_uri}}" />
+
+      <!--CSS-->
+      <link href="https://fonts.googleapis.com/css?family=Chivo:300,700|Press+Start+2P" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'css/menu-image.css' %}" type='text/css' media='all' >
+      <link rel="stylesheet" type="text/css" href="{% static 'css/libse.css' %}" type='text/css' media='all' />
+      <link rel="stylesheet" type="text/css" href="{% static 'css/main-studio.css' %}" type='text/css' media='all' />
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style-studio.css' %}" type='text/css' media='all' />
+      <link rel="stylesheet" href="{% static 'css/style-calendar.css' %}">
+
+      <!--FAVICON HERE-->
+      <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicons/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicons/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicons/favicon-16x16.png">
+      <meta name="msapplication-TileColor" content="#01ecff">
+      <meta name="theme-color" content="#ffffff">
+
+      <!--VIEWPORT-->
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+   </head>
+   <body class="home page-template-default page page-id-10 custom-background">
+      <div class="animsition">
+         {% if homepage.image  and homepage.image.url.strip %}
+         <header class="header" style="background-image: url('{{homepage.image.url}}')">
+         {% else %}
+         <header class="header" style="background-image: url('{% static 'images/nlytn-studio.jpg' %}')">
+            {% endif %}
+            <div class="top-black"></div>
+            <div class="rel h-100">
+               <div class="logotype-mobile">
+                  <a href="{% url 'core:index' %}">
+                  <img class="preloaderLogo"  src="{% static 'images/NLYTN.svg' %}" alt="pre-loader NLYTN logo">
+                  </a>
+               </div>
+               <div class="wrapper header-wrapper">
+                  <nav class="menu">
+                     <ul id="menu-top-menu" class="menu-wrapper">
+                        <li  class="menu-item menu-item-type-post_type menu-item-object-page top-menu-item"><a href="#scroll">Studio</a></li>
+                        {% if equipment.images.count > 0 %}
+                        <li id="menu-item-1363" class="menu-item menu-item-type-post_type menu-item-object-page top-menu-item"><a href="#Equipments">Equipments</a></li>
+                        {% endif %}
+                        <li id="menu-item-428" class="menu-item menu-item-type-post_type menu-item-object-page top-menu-item current-menu-item page_item page-item-10 current_page_item">
+                           <a href="{% url 'core:index' %}" aria-current="page" class="menu-image-title-hide menu-image-not-hovered">
+                           <span class="menu-image-title-hide menu-image-title">Home</span>
+                           <img src="{% static 'images/NLYTN.svg' %}" class="menu-image menu-image-title-hide" alt="NLYTN logo" loading="lazy" />
+                           </a>
+                        </li>
+                        {% if specSectionCount > 0 %}
+                        <li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page top-menu-item"><a href="#Specs">Specifications</a></li>
+                        {% endif %}
+                        <li id="menu-item-461" class="menu-item menu-item-type-post_type menu-item-object-page top-menu-item"><a href="#Rent">Rent</a></li>
+                     </ul>
+                     <button class="navigation-btn">
+                     <span class="navigation-bar bar-1"></span>
+                     <span class="navigation-bar bar-2"></span>
+                     <span class="navigation-bar bar-3"></span>
+                     </button>
+                  </nav>
+                  <div class="header-content">
+                     {% if homepage.description and homepage.description.strip  %}
+                     <div class="header-title title">
+                        {{homepage.description}}
+                     </div>
+                     {% else %}
+                     <div class="header-title title">
+                        The ultimate playground for music and audio post-production
+                     </div>
+                     {% endif %}
+                     {% if homepage.button and homepage.button.strip  %}        
+                     <div class="post-btn-smallmargin">
+                        <a href="#Rent"  class="border-btn">
+                        {{homepage.button}}             
+                        <span class='line-1'></span>
+                        <span class='line-2'></span>
+                        <span class='line-3'></span>
+                        <span class='line-4'></span>
+                        </a>
+                     </div>
+                     {% else %}
+                     <div class="post-btn-smallmargin">
+                        <a href="#Rent"  class="border-btn">
+                        Rent Now             
+                        <span class='line-1'></span>
+                        <span class='line-2'></span>
+                        <span class='line-3'></span>
+                        <span class='line-4'></span>
+                        </a>
+                     </div>
+                     {% endif %}
+                  </div>
+               </div>
+               <div class="header-slide">
+                  <a href="#scroll" class="btn-slide">
+                  <img src="{% static 'images/arrow.png' %}" alt="Slide to studio's section">
+                  </a>
+               </div>
+            </div>
+         </header>
+         {% block content %}
+         {% endblock content %}
+      </div>
+      <script src="{% static 'js/vendors/jquery-3.7.1.min.js' %}"></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js'></script>
+      <script type='text/javascript' src="{% static 'js/script-studio.js' %}"></script>
+      <script type='text/javascript' src="{% static 'js/skip-link-focus-fix.js' %}"></script>
+      <script  src="{% static 'js/script-calendar.js' %}"></script>
+   </body>
+</html>

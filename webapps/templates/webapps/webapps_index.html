@@ -1,0 +1,284 @@
+{% extends "base-studio.html"%}
+{% load static %}
+{% block content %}
+<div class="music scroll" id="scroll">
+	<div class="wrapper">
+		<div class="music-wrapper">
+			<div class="music-content">
+				{% if studio.title and studio.title.strip  %}
+				<h2 class="music-title title">{{studio.title}}</h2>
+				{% else%}
+				<h2 class="music-title title">Studio</h2>
+				{% endif %}
+				{% if studio.description and studio.description.strip  %}
+				<div class="music-description description">
+					{{studio.description}}         
+				</div>
+				{% else%}
+				<div class="music-description description">
+					Due to its comfortable living room style layout and perfect acoustics, the studio is great for writing, production, recording vocals and overdubs, or analog summing.
+				</div>
+				{% endif %}
+				<hr>
+			</div>
+			<div class="music-slider">
+				{% if studio.images.all.count > 0 %}
+				<div class="music-item-slide">
+					<div class="owl-carousel">
+						{% for images in studio.images.all %}
+						<img src="{{images.image.url}}" />
+						{% endfor %}
+					</div>
+				</div>
+				{% else %}
+				<div class="music-item-slide">
+					<div class="owl-carousel">
+						<img src="{% static 'images/showcase/studio-digital-synthesizer.jpg' %}" />
+					</div>
+				</div>
+				{% endif %}
+				{% if studio.summary and studio.summary.strip  %}
+				<div class="music-item-text">
+					{{studio.summary |safe}}         
+				</div>
+				{% else%}
+				<div class="music-item-text">
+					<p>At NLYTN studio it’s all about creating the ultimate recording environment. You’ll feel at home right away due to our relaxed atmosphere and friendly support members.</p>
+					<p>The studio is a smart hybrid of modern digital production workflows and vintage analog sound quality, with only the very best gear. There’s a gorgeous instrument and backline collection, and of course our professional host, who works on tracks and festivls regularly.</p>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if equipment.images.all.count > 0 %}
+<div id="Equipments" class="studio">
+	<div class="wrapper">
+		<div class="studio-content">
+			{% if equipment.title and equipment.title.strip  %}
+			<h2 class="studio-title title">{{equipment.title}}</h2>
+			{% else %}
+			<h2 class="studio-title title">Equipments</h2>
+			{% endif %}
+			{% if equipment.description and equipment.description.strip  %}
+			<div class="studio-description description">
+				{{equipment.description}}         
+			</div>
+			{% else%}
+			<div class="studio-description description">
+				NLYTN recording studio is the ultimate playground for music production and audio post production.
+			</div>
+			{% endif %}
+			<hr>
+		</div>
+		<div class="music-studios-slider studio-item-container">
+			{% for images in equipment.images.all %}
+			<div class="studio-item">
+				<span>{{images.name}}</span>
+				<div class="studio-img" style="background-image: url('{{images.image.url}}')"></div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% if specs.count > 0 %}
+<div id="Specs" class="studio white-bg">
+	<div class="wrapper">
+		<div class="studio-wrapper">
+			<div class="studio-content">
+				<h2 class="black-font title">Specs</h2>
+				<hr class="dark-bg">
+			</div>
+			<div class="spec-cards-container">
+				{% for spec in specs %}
+				<div class="spec-card">
+					<h3 class="spec-card__title">{{spec.title}}</h3>
+					{{spec.description | safe}}
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<div id="Rent" class="post">
+	<div class="wrapper">
+		<div class="post-wrapper">
+			<div class="post-content">
+				<h2 class="post-title title">Rent The Studio            
+				</h2>
+			</div>
+			{% csrf_token %}
+			{% verbatim %}
+			<div class="app-container" ng-app="dateTimeApp" ng-controller="dateTimeCtrl as ctrl" ng-cloak>
+				<div date-picker
+					datepicker-title="Select Date"
+					picktime="true"
+					pickdate="true"
+					pickpast="false"
+					mondayfirst="false"
+					custom-message="Selected"
+					selecteddate="ctrl.selected_date"
+					updatefn="ctrl.updateDate(newdate)">
+					<div class="datepicker"ng-class="{'compact': compact}">
+						<div class="datepicker-header">
+							<div class="datepicker-title" ng-if="datepicker_title">{{ datepickerTitle }}</div>
+							<div class="datepicker-subheader">{{ customMessage }} {{ selectedDay }} {{ monthNames[localdate.getMonth()] }} {{ localdate.getDate() }}, {{ localdate.getFullYear() }}  {{ timeString }}</div>
+						</div>
+						<div class="datepicker-calendar">
+							<div class="calendar-header">
+								<div class="goback" ng-click="moveBack()" ng-if="pickdate">
+									<svg width="30" height="30">
+										<path fill="none" stroke="#303030" stroke-width="3" d="M19,6 l-9,9 l9,9"/>
+									</svg>
+								</div>
+								<div class="current-month-container">{{ currentViewDate.getFullYear() }} {{ currentMonthName() }}</div>
+								<div class="goforward" ng-click="moveForward()" ng-if="pickdate">
+									<svg width="30" height="30">
+										<path fill="none" stroke="#303030" stroke-width="3" d="M11,6 l9,9 l-9,9" />
+									</svg>
+								</div>
+							</div>
+							<div class="calendar-day-header">
+								<span ng-repeat="day in days" class="day-label">{{ day.short }}</span>
+							</div>
+							<div class="calendar-grid" ng-class="{false: 'no-hover'}[pickdate]">
+								<div
+									ng-class="{'no-hover': !day.showday}"
+									ng-repeat="day in month"
+									class="datecontainer"
+									ng-style="{'margin-left': calcOffset(day, $index)}"
+									track by $index>
+									<div class="datenumber" ng-class="{'day-selected': day.selected }" ng-click="selectDate(day)">
+										{{ day.daydate }}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="timepicker" ng-if="picktime == 'true'">
+							<div class="time-container">
+								<div id="select"></div>
+							</div>
+						<div class="buttons-container">
+							<div id="save-button" class="save-button" ng-click="checkout()">Proceed to checkout</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endverbatim %}
+		</div>
+	</div>
+</div>
+
+{% if testimonials.count > 0 %}
+<div class="case parallax">
+	<div class="wrapper">
+		<div class="case-content wow fadeIn" data-wow-delay=".3s" data-wow-duration="1s">
+			<h2 class="case-title title">
+				Testimonials
+			</h2>
+			<div class="case-description description">
+				<p>We love everything that has to do with sound and music. Hear from our clients themselves.</p>
+			</div>
+			<hr>
+		</div>
+
+		<div class="music-studios-slider studio-item-container">
+			{% for testimonial in testimonials %}
+			<div class="case-item">
+				<div class="case-body">
+					<div class="case-subdescription">
+						<p>{{testimonial.reviews}}</p>
+					</div>
+					<div class="case-subbtn">
+						<a class="btn btn-case">{{testimonial.name}}</a>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<footer>
+	<div class="footer">
+		<div class="wrapper">
+			<div class="footer-top">
+				<div class="footer-logo">
+					<a href="{% url 'core:index' %}">
+					<img src="{% static 'images/NLYTN.svg' %}" alt="NLYTN logo">         
+					</a>
+				</div>
+				<div class="footer-items">
+					<div class="footer-contact">
+						<hr>
+						<div class="footer-title">
+							Sitemap                    
+						</div>
+						<ul id="menu-footer" class="footer-list">
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home footer-link"><a href="{% url 'core:index' %}">Home</a></li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="{% url 'webapps:webapps-index' %}">Studio</a></li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="{% url 'core:about' %}">About</a></li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="{% url 'core:index' %}#footer">Contact</a></li>
+						</ul>
+					</div>
+					{% if music_links_count > 0  %}
+					<div class="footer-subscribe">
+						<hr>
+						<div class="footer-title">
+							Music                     
+						</div>
+						<ul id="menu-footer-2" class="footer-list-2">
+							{% for socialLink in social_media %}
+							{% if socialLink.name == "Spotify"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-custom menu-item-object-custom footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Spotify</a></li>
+							{% endif %}
+							{% if socialLink.name == "Apple Music"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Apple Music</a></li>
+							{% endif %}
+							{% if socialLink.name == "Youtube"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-custom menu-item-object-custom footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Youtube</a></li>
+							{% endif %}
+							{% if socialLink.name == "SoundCloud"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page footer-link"><a href="{{socialLink.url.strip}}"  target="_blank">SoundCloud</a></li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+					{% if social_media_links_count > 0  %}
+					<div class="footer-links">
+						<hr>
+						<div class="footer-title">
+							Socals                    
+						</div>
+						<ul id="menu-footer" class="footer-list">
+							{% for socialLink in social_media %}
+							{% if socialLink.name == "Instagram"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Instagram</a></li>
+							{% endif %}
+							{% if socialLink.name == "Facebook"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Facebook</a></li>
+							{% endif %}
+							{% if socialLink.name == "Twitter"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="{{socialLink.url.strip}}" target="_blank">Twitter</a></li>
+							{% endif %}
+							{% if socialLink.name == "Email"  and socialLink.url.strip  %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376 footer-link"><a href="mailto:{{socialLink.url.strip}}" target="_blank">Email</a></li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+{% endblock content %}

@@ -1,0 +1,133 @@
+{% load static %}
+{% load meta %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+<head  {% meta_namespaces %}>
+    <meta charset="utf-8"/>
+
+    {% include "meta/meta.html"%}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="referrer" content="always"/>
+    <link rel="canonical" href="https://<ADD HOST>/"/> <!-- TODO -->
+
+    <!--CSS-->
+    <link href="https://fonts.googleapis.com/css?family=Chivo:300,700|Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style5e1f.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nlytn-logo.css' %}"/>
+
+    <!--FAVICON HERE-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicons/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#01ecff">
+    <meta name="theme-color" content="#ffffff">
+    <!--VIEWPORT-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!-- reCAPTCHA API -->
+    <script src='https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}'></script>
+</head>
+<body class="homepage preload" data-page="homepage" data-device="desktop">
+<header>
+    <div class="headerWrapper">
+        <div class="headerLower">
+            <a href="{% url 'core:index' %}" id="mau5Logo" class="mau5Logo">
+                <img class="logo" src="{% static 'images/NLYTN.svg' %}" alt="NLYTN logo"/>
+            </a>
+            <nav>
+                <ul class="primaryNav">
+                    <li><a href="{% url 'core:about' %}" class="transition">About</a></li>
+                    {% if latestReleasesCount > 0 %}
+                    <li><a href="{% url 'core:index' %}#latestReleases" class="transition">Latest Releases</a></li>
+                    {% endif %}
+                    {% if eventsCount > 0 %}
+                    <li><a href="{% url 'core:index' %}#events" class="transition">Events / Gigs</a></li>
+                    {% endif %}
+                    {% if postsCount > 0 %}
+                    <li><a href="{% url 'core:index' %}#blog" class="transition">Blogs</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'webapps:webapps-index' %}" class="transition">Book A Session</a></li>
+                    <li><a href="#footer" class="transition">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="mobileMenuWrapper" class="mobileMenuWrapper">
+        <ul id="mobileMenuItem" class="mobileNavWrapper">
+            <li><a href="{% url 'core:about' %}" class="transition">About</a></li>
+            {% if latestReleasesCount > 0 %}
+            <li><a href="{% url 'core:index' %}#latestReleases" class="transition">Latest Releases</a></li>
+            {% endif %}
+            {% if eventsCount > 0 %}
+            <li><a href="{% url 'core:index' %}#events" class="transition">Events / Gigs</a></li>
+            {% endif %}
+            {% if postsCount > 0 %}
+            <li><a href="{% url 'core:index' %}#blog" class="transition">Blogs</a></li>
+            {% endif %}
+            <li><a href="{% url 'webapps:webapps-index' %}" class="transition">Book A Session</a></li>
+            <li><a href="#footer" class="transition">Contact</a></li>
+        </ul>
+        <div class="menuSocialWrapper">
+            <ul class="musicLinks">
+                {% for socialLink in social_media %}
+                {% if socialLink.name == "Spotify" and socialLink.url.strip %}
+                <li><a href="{{socialLink.url.strip}}" class="spotify transition" target="_blank">Spotify</a></li>
+                {% endif %}
+                {% if socialLink.name == "Apple Music" and socialLink.url.strip %}
+                <li><a href="{{socialLink.url.strip}}" class="applemusic transition" target="_blank">Apple Music</a>
+                </li>
+                {% endif %}
+                {% if socialLink.name == "Youtube" and socialLink.url.strip %}
+                <li><a href="{{socialLink.url.strip}}" class="youtube transition" target="_blank">YouTube</a></li>
+                {% endif %}
+                {% if socialLink.name == "SoundCloud" and socialLink.url.strip %}
+                <li><a href="{{socialLink.url.strip}}" class="soundcloud transition" target="_blank">SoundCloud</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            <ul class="socialLinks">
+                {% for socialLink in social_media %}
+                {% if socialLink.name == "Instagram" and socialLink.url.strip %}
+                <li class="animate"><a href="{{socialLink.url.strip}}" class="instagram transition" target="_blank">Instagram</a>
+                </li>
+                {% endif %}
+                {% if socialLink.name == "Facebook" and socialLink.url.strip %}
+                <li class="animate"><a href="{{socialLink.url.strip}}" class="facebook transition" target="_blank">Facebook</a>
+                </li>
+                {% endif %}
+                {% if socialLink.name == "Twitter" and socialLink.url.strip %}
+                <li class="animate"><a href="{{socialLink.url.strip}}" class="twitter transition" target="_blank">Twitter</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <a href="#" id="menuButton" class="menuButton">
+        <span>Menu</span>
+        <div id="x" class="x"></div>
+        <div id="y" class="y"></div>
+        <div id="z" class="z"></div>
+    </a>
+</header>
+{% block content %}
+{% endblock content %}
+<script>
+       //global grecaptcha
+       grecaptcha.ready(function() {
+         grecaptcha.execute('{{recaptcha_site_key}}', {action: 'submit'}).then(function(token) {
+           document.getElementById('g-recaptcha-response').value = token;
+         });
+       });
+
+</script>
+<script src="{% static 'js/vendors/three-r124.min.js' %}"></script>
+<script src="{% static 'js/vendors/modernizr-3.6.0.js' %}"></script>
+<script src="{% static 'js/vendors/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/vendors/gsap.min.js' %}"></script>
+<script src="{% static 'js/vendors/EasePack.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/plugins-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main-min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="videosWrapper contentWrapper">
+        <div class="videoCard loadIn colPad">
+            <div class="videoTitle">
+                {% if post.title and post.title.strip %}
+                <h2>{{post.title}}</h2>
+                {% else%}
+                <h2>Post<br/><span>NLYTN &mdash; Siddhesh Parekh</span></h2>
+                {% endif %}
+            </div>
+            <div class="videoShareWrapper shareWrapper">
+                <h4>SHARE</h4>
+                <a href="javascript:void(0);" class="shareLink facebook" onclick="socialShare('facebook', encodeURIComponent(window.location.href), encodeURIComponent('{{ post.title|escapejs }}'));">Facebook</a>
+                <a href="javascript:void(0);" class="shareLink twitter" onclick="socialShare('twitter', encodeURIComponent(window.location.href), encodeURIComponent('{{ post.title|escapejs }}'));">Twitter</a>
+                <a href="javascript:void(0);" class="shareLink reddit" onclick="socialShare('reddit', encodeURIComponent(window.location.href), encodeURIComponent('{{ post.title|escapejs }}'));">Reddit</a>
+            </div>
+            <div class="videoButton objectFitWrapper">
+                {% if post.image and post.image.url.strip %}
+                <img src="{{post.image.url}}" class="objectFitImage" alt="{{post.title}}"/>
+                {% else%}
+                <img src="{% static 'images/background/siddhesh-parekh-nlytn.jpg' %}" alt="Siddhesh Parekh - NLYTN's singer and co-founder" class="objectFitImage"/>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="contentWrapper">
+        <div class="newsSingleContent colPad">
+            <div class="date loadIn">{{post.created_on|date:"F d, Y"}}</div>
+            <div class="newsBlock loadIn">
+                {% if post.description and post.description.strip %}
+                <h2>{{post.description}}</h2>
+                {% endif %}
+            </div>
+            <div class="newsBlock loadIn">
+                {% if post.body and post.body.strip %}
+                {{post.body | safe }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+<footer id="footer">
+    <div id="footerWrapper" class="footerWrapper contentWrapper">
+        <div class="footerSignUp footerCol colPad">
+            <h4>Hit me Up!</h4>
+            <div>
+                <form method="post" name="contact-form" class="footerSignUpForm">
+                    {% csrf_token %}
+                    {{contactForm}}
+                    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+
+                    <div class="mergeRow gdpr-mergeRow content__gdprBlock mc-field-group">
+                        <div class="content__gdpr privacy">
+                            <fieldset class="mc_fieldset gdprRequired mc-field-group" name="interestgroup_field">
+                                <span>I acknowledge that I want to subscribe to the newsletter.</span>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="clear">
+                        <button class="submitContact ctaButton transition" type="submit">Send Query</button>
+                    </div>
+
+                </form>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="response">
+                    <p>{{ message }}</p>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="content__gdprLegal">
+                    <p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footerContainer footerCol">
+            {% if music_links_count > 0 %}
+            <div class="footerMusic colPad">
+                <h4>Music</h4>
+                <ul class="musicLinks">
+                    {% for socialLink in social_media %}
+                    {% if socialLink.name == "Spotify" and socialLink.url.strip %}
+                    <li><a href="{{socialLink.url.strip}}" class="spotify transition" target="_blank">Spotify</a></li>
+                    {% endif %}
+                    {% if socialLink.name == "Apple Music" and socialLink.url.strip %}
+                    <li><a href="{{socialLink.url.strip}}" class="applemusic transition" target="_blank">Apple Music</a>
+                    </li>
+                    {% endif %}
+                    {% if socialLink.name == "Youtube" and socialLink.url.strip %}
+                    <li><a href="{{socialLink.url.strip}}" class="youtube transition" target="_blank">YouTube</a></li>
+                    {% endif %}
+                    {% if socialLink.name == "SoundCloud" and socialLink.url.strip %}
+                    <li><a href="{{socialLink.url.strip}}" class="soundcloud transition" target="_blank">SoundCloud</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% if social_media_links_count > 0 %}
+            <div class="footerSocials colPad">
+                <h4>Socials</h4>
+                <ul class="socialLinks">
+                    {% for socialLink in social_media %}
+                    {% if socialLink.name == "Instagram" and socialLink.url.strip %}
+                    <li class="animate"><a href="{{socialLink.url.strip}}" class="instagram transition" target="_blank">Instagram</a>
+                    </li>
+                    {% endif %}
+                    {% if socialLink.name == "Facebook" and socialLink.url.strip %}
+                    <li class="animate"><a href="{{socialLink.url.strip}}" class="facebook transition" target="_blank">Facebook</a>
+                    </li>
+                    {% endif %}
+                    {% if socialLink.name == "Twitter" and socialLink.url.strip %}
+                    <li class="animate"><a href="{{socialLink.url.strip}}" class="twitter transition" target="_blank">Twitter</a>
+                    </li>
+                    {% endif %}
+                    {% if socialLink.name == "Email" and socialLink.url.strip %}
+                    <li class="animate"><a href="mailto:{{socialLink.url.strip}}" class="email transition" target="_blank">Email</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="footerTestPilot colPad">
+                <h4>Support The Artist</h4>
+                <form>
+                    <script src="https://checkout.razorpay.com/v1/payment-button.js"
+                            data-payment_button_id="<Ad payment button id>" async></script> <!-- TODO -->
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock content %}

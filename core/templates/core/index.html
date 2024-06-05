@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+	<div  class="homepageHero">
+		<header class="codrops-header">
+			<img class="static__title" src="{% static 'images/NLYTN.svg' %}" alt="NLYTN logo">
+		</header>
+		<div class="content">
+			<!-- The canvas where ThreeJs renders the WebGL -->
+			<canvas id="scene"></canvas>
+		</div>
+	</div>
+	<div class="contentWrapper largeBannerWrapper parallax loadIn">
+		<div class="imageWrapper objectFitWrapper">
+			{% if about.image  and about.image.url.strip %}
+			<img src="{{about.image.url}}" alt="about NLYTN section background" class="objectFitImage"/>
+			{% else%}
+			<img src="{% static 'images/background/nlytn-kolkata-performance.jpg' %}" alt="about NLYTN section background" class="objectFitImage"/>
+			{% endif %}
+		</div>
+		<div class="inner colPad center">
+			{% if about.description  and about.description.strip  %}
+			<h2>{{about.description}}</h2>
+			{% else%}
+			<h2>Be A Pilgrim of this journey through sound electrifying drops and spine-chilling melodies</h2>
+			{% endif %}
+			{% if about.button  and about.button.strip  %}
+			<a href="{% url 'core:about' %}" class="ctaButton transition">{{about.button}}</a>
+			{% else%}
+			<a href="{% url 'core:about' %}" class="ctaButton transition">See More</a>
+			{% endif %}
+		</div>
+	</div>
+	{% if latestReleases and latestReleases.count > 0  %}
+	<div id="latestReleases" class="releasesCarousel">
+		<div class="releasesCarouselTitleWrapper loadIn">
+			<div class="releasesCarouselTitle">
+				<h2>Latest Releases</h2>
+			</div>
+		</div>
+		{% if not request.user_agent.is_mobile and latestReleases.count > 2 %}
+		<a id="nextRelease" href="#" class="nextReleaseButton"></a>
+		{% elif request.user_agent.is_mobile and latestReleases.count > 1 %}
+		<a id="nextRelease" href="#" class="nextReleaseButton"></a>
+		{% endif %}
+		{% for latestRelease in latestReleases %}
+		<div id="latestReleasesSlide" class="releaseSlide colPad loadIn">
+			<div class="packshot objectFitWrapper ">
+				{% if latestRelease.trackId and latestRelease.trackId.strip %}
+				<iframe src="https://open.spotify.com/embed/track/{{latestRelease.trackId}}" class="objectFitIframe transition" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+				{% endif %}
+			</div>
+			<div class="title">{{latestRelease.album}}</div>
+			<div class="subTitle transition">{{latestRelease.artist}}</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	{% if events.count > 0  %}
+	<div id="events" class="contentWrapper showsWidgetOuter">
+		<div class="showsWidget">
+			<h2 class="colPad">Upcoming Events / Gigs</h2>
+			{% for event in events %}
+			<div class="row showRow loadIn transition ">
+				<div class="col-lg-8">
+					<div class="showDate colPad">{{ event.date }}</div>
+					<div class="showVenue colPad">{{event.concert_name}}</div>
+					<div class="showLocation colPad">{{event.location}}</div>
+				</div>
+				{% if event.booking_url  and event.booking_url.strip  %}
+				<div class="col-lg-4">
+					<div class="showType colPad">
+						<span class="showIcon tickets"></span>{{event.tickets}}
+					</div>
+					<div class="showTickets">
+						<a href="{{event.booking_url}}" target="_blank" class="ctaButton transition">View More</a>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+			<!-- <div class="showsWidgetButton colPad loadIn">
+				<a href="shows/index.html" class="ctaButton transition ">View all shows</a>
+			</div> -->
+		</div>
+	</div>
+	{% endif %}
+
+	{% if posts and posts.count > 0  %}
+	<div id="blog" class="releasesCarousel">
+		<div class="releasesCarouselTitleWrapper loadIn">
+			<div class="releasesCarouselTitle">
+				<h2>Blogs</h2>
+			</div>
+		</div>
+		{% if not request.user_agent.is_mobile and posts.count > 2 %}
+		<a id="nextBlog" href="#" class="nextReleaseButton"></a>
+		{% elif request.user_agent.is_mobile and posts.count > 1 %}
+		<a id="nextBlog" href="#" class="nextReleaseButton"></a>
+		{% endif %}
+		{% for post in posts %}
+		<a id="featuresSlide" href="{% url 'blog:post_detail' post.pk  post.url_slug  %}" class="releaseSlide colPad loadIn">
+			<div class="packshot objectFitWrapper ">
+				{% if post.image and post.image.url.strip %}
+				<img src="{{post.image.url}}" class="objectFitImage transition"/>
+				{% else%}
+				<img src="{% static 'images/album-cover/album-cover.jpg' %}" class="objectFitImage transition"/>
+				{% endif %}
+				<div class="hitMe">
+					Read More
+					<span class="hitMeUnderline transitionSlow"></span>
+					<div class="halfCircle">
+						<div class="circleStroke transitionSlow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="title">{{post.title}}</div>
+			<div class="subTitle transition">{{post.created_on|date:"F d, Y"}}</div>
+			<div class="listenButton ctaButton">Read More</div>
+		</a>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	<div class="contentWrapper largeBannerWrapper parallax loadIn">
+		<div class="imageWrapper objectFitWrapper">
+			{% if bookASession.image and bookASession.image.url.strip %}
+			<img src="{{bookASession.image.url}}"  alt="book studio session section background" class="objectFitImage"/>
+			{% else%}
+			<img src="{% static 'images/background/nlytn-studio-book.jpg' %}" alt="book studio session section background" class="objectFitImage"/>
+			{% endif %}
+		</div>
+		<div class="inner colPad center">
+			{% if bookASession.description  and about.description.strip  %}
+			<h2>{{bookASession.description}}</h2>
+			{% else%}
+			<h2>The ultimate playground for music and audio post-production</h2>
+			{% endif %}
+			{% if bookASession.button  and bookASession.button.strip  %}
+			<a href="{% url 'webapps:webapps-index' %}" class="ctaButton transition">{{bookASession.button}}</a>
+			{% else%}
+			<a href="{% url 'webapps:webapps-index' %}" class="ctaButton transition">Book A Session</a>
+			{% endif %}
+		</div>
+	</div>
+</main>
+<footer id="footer">
+	<div id="footerWrapper" class="footerWrapper contentWrapper">
+		<div class="footerSignUp footerCol colPad">
+			<h4>Hit me Up!</h4>
+			<div>
+				<form method="post" name="contact-form" class="footerSignUpForm">
+					{%  csrf_token %}
+					{{contactForm}}
+					<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+
+					<div class="mergeRow gdpr-mergeRow content__gdprBlock mc-field-group">
+					    <div class="content__gdpr privacy">
+					        <fieldset class="mc_fieldset gdprRequired mc-field-group" name="interestgroup_field">
+								<span>I acknowledge that I want to subscribe to the newsletter.</span>
+					        </fieldset>
+					    </div>
+					</div>
+
+					<div  class="clear">
+						<button class="submitContact ctaButton transition" type="submit">Send Query</button>
+					</div>
+
+				</form>
+				{% if messages %}
+				{% for message in messages %}
+				<div  class="response">
+					<p>{{ message }}</p>
+				</div>
+				{% endfor %}
+				{% endif %}
+				<div class="content__gdprLegal">
+					<p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+				</div>
+			</div>
+		</div>
+		<div class="footerContainer footerCol">
+			{% if music_links_count > 0  %}
+			<div class="footerMusic colPad">
+				<h4>Music</h4>
+				<ul class="musicLinks">
+					{% for socialLink in social_media %}
+					{% if socialLink.name == "Spotify"  and socialLink.url.strip  %}
+					<li><a href="{{socialLink.url.strip}}" class="spotify transition" target="_blank">Spotify</a></li>
+					{% endif %}
+					{% if socialLink.name == "Apple Music"  and socialLink.url.strip  %}
+					<li><a href="{{socialLink.url.strip}}" class="applemusic transition" target="_blank">Apple Music</a></li>
+					{% endif %}
+					{% if socialLink.name == "Youtube"  and socialLink.url.strip  %}
+					<li><a href="{{socialLink.url.strip}}" class="youtube transition" target="_blank">YouTube</a></li>
+					{% endif %}
+					{% if socialLink.name == "SoundCloud"  and socialLink.url.strip  %}
+					<li><a href="{{socialLink.url.strip}}" class="soundcloud transition" target="_blank">SoundCloud</a></li>
+					{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+			{% if social_media_links_count > 0  %}
+			<div class="footerSocials colPad">
+				<h4>Socials</h4>
+				<ul class="socialLinks">
+					{% for socialLink in social_media %}
+					{% if socialLink.name == "Instagram"  and socialLink.url.strip  %}
+					<li class="animate"><a href="{{socialLink.url.strip}}" class="instagram transition" target="_blank">Instagram</a></li>
+					{% endif %}
+					{% if socialLink.name == "Facebook"  and socialLink.url.strip  %}
+					<li class="animate"><a href="{{socialLink.url.strip}}" class="facebook transition" target="_blank">Facebook</a></li>
+					{% endif %}
+					{% if socialLink.name == "Twitter"  and socialLink.url.strip  %}
+					<li class="animate"><a href="{{socialLink.url.strip}}" class="twitter transition" target="_blank">Twitter</a></li>
+					{% endif %}
+					{% if socialLink.name == "Email"  and socialLink.url.strip  %}
+					<li class="animate"><a href="mailto:{{socialLink.url.strip}}" class="email transition" target="_blank">Email</a></li>
+					{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+			<div class="footerTestPilot colPad">
+				<h4>Support The Artist</h4>
+				<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="<Ad payment button id>" async> </script>  <!-- TODO -->
+			</div>
+		</div>
+	</div>
+</footer>
+<script src="{% static 'js/nlytn-animation.js' %}"></script>
+{% endblock content %}

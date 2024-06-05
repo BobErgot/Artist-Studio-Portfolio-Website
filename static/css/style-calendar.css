@@ -1,0 +1,509 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+@font-face {
+    font-family: 'space_grotesklight';
+    src: url("../fonts/spacegrotesk-light-webfont.woff2") format("woff2"), url("../fonts/spacegrotesk-light-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'space_grotesksemibold';
+    src: url("../fonts/spacegrotesk-semibold-webfont.woff2") format("woff2"), url("../fonts/spacegrotesk-semibold-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
+
+.app-container {
+  border-radius: 4px;
+  overflow: hidden;
+  width: 720px;
+  height: auto;
+  max-width: 100%;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.buttons-container {
+  position: absolute;
+  bottom: 15px;
+  right: 85px;
+  height: 40px;
+  font-family: "space_grotesklight", Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.cancel-button,
+.save-button {
+  height: 40px;
+  max-width: 200px;
+  line-height: 40px;
+  padding: 0 15px;
+  border-radius: 2px;
+  margin: 0 auto 0 auto;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cancel-button {
+  background: white;
+  color: #303030;
+}
+
+.save-button {
+  background: #303030;
+  color: white;
+}
+
+/* Datepicker Stuff */
+.datepicker {
+  position: relative;
+  width: 100%;
+  display: block;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-family: "space_grotesklight", Helvetica Neue, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  transition: background 0.15s ease;
+  background: white;
+}
+
+.datepicker-header {
+  width: 100%;
+  color: white;
+  overflow: hidden;
+}
+
+.datepicker-title {
+  width: 30%;
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 15px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.datepicker-subheader {
+  width: 70%;
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  font-size: 12px;
+  padding: 0 15px;
+  text-align: right;
+}
+
+.datepicker-calendar {
+  width: 50%;
+  float: left;
+  padding: 20px 15px 15px;
+  max-width: 400px;
+  display: block;
+}
+
+.calendar-header {
+  color: black;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px 0;
+  position: relative;
+}
+
+.time-header {
+  color: black;
+  display: inline-block;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px 25px;
+  position: relative;
+}
+.current-month-container {
+  display: inline-block;
+  height: 30px;
+  position: relative;
+}
+
+.goback,
+.goforward {
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  top: -4px;
+}
+
+.goback path,
+.goforward path {
+  transition: stroke 0.15s ease;
+}
+
+.goback {
+  float: left;
+  margin-left: 3.8%;
+}
+
+.goforward {
+  float: right;
+  margin-right: 3.8%;
+}
+
+.calendar-day-header {
+  width: 100%;
+  position: relative;
+}
+
+.calendar-grid {
+  text-align: left;
+}
+
+.day-label {
+  color: #8A8A8A;
+  padding: 5px 0;
+  width: 14.2857142%;
+  display: inline-block;
+  text-align: center;
+}
+
+.datecontainer {
+  width: 14.2857142%;
+  display: inline-block;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.datenumber {
+  max-width: 35px;
+  max-height: 35px;
+  line-height: 35px;
+  margin: 0 auto;
+  color: #8A8A8A;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.25s cubic-bezier(0.7, -0.12, 0.2, 1.12);
+}
+
+.no-hover .datenumber,
+.no-hover .datenumber:hover,
+.no-hover .datenumber:before,
+.no-hover .datenumber:hover::before {
+  cursor: default;
+  color: #8A8A8A;
+  background: transparent;
+  opacity: 0.5;
+}
+
+.no-hover .datenumber.day-selected {
+  color: white;
+}
+
+.datenumber:hover {
+  color: white;
+}
+
+.datenumber:before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 35px;
+  width: 35px;
+  border-radius: 100px;
+  z-index: -1;
+  background: transparent;
+  transform: scale(0.75);
+  transition: all 0.25s cubic-bezier(0.7, -0.12, 0.2, 1.12);
+  transition-property: background, transform, color, border;
+}
+
+.datenumber:hover::before {
+  background: #FFAB91;
+  transform: scale(1);
+}
+
+.day-selected {
+  color: white;
+}
+
+.datenumber.day-selected:before {
+  background: #34495e;
+  transform: scale(1);
+  -webkit-animation: select-date 0.25s forwards;
+  animation: select-date 0.25s forwards;
+}
+
+@-webkit-keyframes select-date {
+  0% {
+    background: #FFAB91;
+  }
+  100% {
+    background: #34495e;
+  }
+}
+@keyframes select-date {
+  0% {
+    background: #FFAB91;
+  }
+  100% {
+    background: #34495e;
+  }
+}
+/* timepicker styles */
+.timepicker-container-outer {
+  width: 50%;
+  max-width: 700px;
+  float: left;
+  display: block;
+  padding: 40px 30px 30px;
+  position: relative;
+  /*  top: 50px;*/
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+
+.timepicker-container-inner {
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  position: relative;
+  display: block;
+}
+
+.timeline-container {
+  display: block;
+  float: left;
+  position: relative;
+  width: 100%;
+  height: 36px;
+}
+
+.datepicker .datepicker-header {
+  color: white;
+  background: #303030;
+}
+.datepicker .current-time::after {
+  background: #303030;
+}
+.datepicker .actual-time {
+  color: white;
+}
+.datepicker .display-time {
+  color: #34495e;
+}
+.datepicker .time-input {
+  color: #FF693C;
+}
+.datepicker .time:after {
+  background: #FF693C;
+}
+.datepicker .increment-time path,
+.datepicker .decrement-time path {
+  stroke: #FF693C;
+}
+
+.datepicker.compact .datepicker-title,
+.datepicker.compact .datepicker-subheader {
+  width: 100%;
+  text-align: center;
+}
+.datepicker.compact .datepicker-title {
+  height: 50px;
+  line-height: 50px;
+}
+.datepicker.compact .datepicker-subheader {
+  height: 60px;
+  line-height: 30px;
+}
+.datepicker.compact .display-time {
+  width: 60%;
+  font-size: 20px;
+  line-height: 36px;
+}
+.datepicker.compact .app-container {
+  width: 100%;
+}
+.datepicker.compact .datepicker-calendar {
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+}
+.datepicker.compact .timepicker-container-outer {
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+  top: -15px;
+}
+.datepicker.compact .buttons-container {
+  position: relative;
+  right: 0;
+  margin: 0 auto
+}
+
+
+.time-container {
+  margin: 20px auto 220px auto;
+  display: table;
+}
+
+/* timepicker */
+.timeselector {
+  position: relative;
+  border-radius: 2px;
+  background-color: #2c3e50;
+  color: #95a5a6;
+  perspective: 800px;
+  width: 200px;
+}
+.timeselector .timeselector-search {
+  position: relative;
+  display: block;
+  border: 0;
+  width: 100%;
+  padding: 1em;
+  outline: none;
+  color: #FFF;
+  background-color: #303030;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  transform-origin: 50% 0;
+  transition: transform 0.3s;
+  border-radius: 2px;
+  z-index: 99;
+}
+.timeselector .timeselector-search .timeselector-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.1) 100%);
+  opacity: 0;
+}
+.timeselector .timeselector-search .timeselector-shadow {
+  position: absolute;
+  height: 15px;
+  width: 100%;
+  left: 0;
+  bottom: -15px;
+  transform-origin: center bottom;
+  transform: scale(0.95, 1) translate3d(0, 0px, 0);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0;
+}
+.timeselector .timeselector-search:before {
+  content: "\f078";
+  display: inline-block;
+  font-family: FontAwesome, serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.5;
+  float: right;
+  vertical-align: middle;
+}
+.timeselector:hover .timeselector-search,
+.timeselector.opened .timeselector-search {
+  transform: rotate3d(1, 0, 0, 60deg);
+}
+.timeselector:hover .timeselector-search .timeselector-overlay,
+.timeselector.opened .timeselector-search .timeselector-overlay,
+.timeselector:hover .timeselector-search .timeselector-shadow,
+.timeselector.opened .timeselector-search .timeselector-shadow {
+  opacity: 1;
+}
+.timeselector:hover .timeselector-menu,
+.timeselector.opened .timeselector-menu {
+  height: 200px;
+  opacity: 1;
+}
+.timeselector .timeselector-menu {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  height: 0;
+  border-radius: 0;
+  background-color: #2c3e50;
+  transition: all 0.3s ease;
+  opacity: 0;
+  border: 1px solid #303030;
+  border-top: none;
+}
+.timeselector ul.timeselector-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: scroll;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  transition: all 0.3s ease;
+  opacity: 0.75;
+  width: 100%;
+  height: 100%;
+}
+.timeselector ul.timeselector-list > li span.timeselector-header {
+  display: block;
+  padding: 6px;
+  background-color: #34495e;
+  font-weight: 200;
+  color: #fff;
+}
+.timeselector ul.timeselector-optgroup {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+}
+.timeselector ul.timeselector-optgroup li:hover {
+  background-color: #303030;
+  color: #fff;
+}
+.timeselector ul.timeselector-optgroup li input[type="checkbox"] {
+  display: none;
+  margin: 6px;
+}
+.timeselector ul.timeselector-optgroup li input[type="checkbox"]:checked {
+  background-color: #1abc9c;
+}
+.timeselector ul.timeselector-optgroup li input[type="checkbox"]:checked ~ label {
+  background-color: #2980b9;
+  color: #fff;
+}
+.timeselector ul.timeselector-optgroup li input[type="checkbox"]:checked ~ label:before {
+  content: "\f14a";
+}
+.timeselector ul.timeselector-optgroup li label {
+  font-weight: 100;
+  display: block;
+  padding-left: 15px;
+  line-height: 2em;
+  transition: all 0.3s ease;
+}
+.timeselector ul.timeselector-optgroup li label:before {
+  content: "\f096";
+  display: inline-block;
+  font-family: FontAwesome, serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  margin-right: 8px;
+  vertical-align: middle;
+}

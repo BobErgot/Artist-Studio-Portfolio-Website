@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<!--FAVICON HERE-->
+        <link href="{% static 'images/favicons/apple-touch-icon.png' %}" rel="apple-touch-icon" sizes="180x180">
+        <link href="{% static 'images/favicons/favicon-32x32.png' %}" rel="icon" sizes="32x32" type="image/png">
+        <link href="{% static 'images/favicons/favicon-16x16.png' %}" rel="icon" sizes="16x16" type="image/png">
+		<meta content="#01ecff" name="msapplication-TileColor">
+		<meta content="#ffffff" name="theme-color">
+		<meta content="900;/studio" http-equiv="refresh"/>
+		<!--VIEWPORT-->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+		<title>Studio Booking - NLYTN</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static 'css/style-form.css' %}">
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}'></script>
+	</head>
+	<body class='snippet-body' oncontextmenu='return false'>
+		<div class="card mt-50 mb-50">
+			<div class="card-title mx-auto">Studio Booking</div>
+			<div class="nav">
+				<ul class="mx-auto">
+					<p>Total cost - USD {{totalAmount}}</p>
+				</ul>
+			</div>
+			<form id="payment-form" method="POST">
+				{% csrf_token %}
+				<span class="card-header">User Details:</span>
+				<div class="row-1">
+					<div class="row row-2"><span class="card-inner">Email Id</span></div>
+					<div class="row row-2">{{ paymentForm.email_id }}</div>
+				</div>
+				<div class="row-1">
+					<div class="row row-2"><span class="card-inner">Phone Number</span></div>
+					<div class="row row-2">{{ paymentForm.number }}</div>
+				</div>
+				<span class="card-header">Booking Information:</span>
+				<div class="row-1">
+					<div class="row row-2"><span class="card-inner">Date</span></div>
+					<div class="row row-2">{{ paymentForm.date }}</div>
+				</div>
+				<div class="row three">
+					<div class="col-6">
+						<div class="row-1">
+							<div class="row row-3"><span class="card-inner">From</span></div>
+							<div class="row row-3"> {{ paymentForm.start_time }}</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="row-1">
+							<div class="row row-3"><span class="card-inner">Till</span></div>
+							<div class="row row-3"> {{ paymentForm.end_time }}</div>
+						</div>
+					</div>
+				</div>
+				<input id="g-recaptcha-response" name="g-recaptcha-response" type="hidden">
+				<button id="proceed-button" class="btn d-flex mx-auto" type="submit"><b>Proceed</b></button>
+			</form>
+			<div id="loader" class="lds-hourglass hide"><div></div></div>
+			<div id="payment-button" class="footer-row hide">
+				<button id="rzp-button" class="btn d-flex mx-auto"><b>Pay</b></button>
+			</div>
+			<div class="footer-row note">
+				<p>*Studio needs to be released 15 minutes before your slot's ending time.</p>
+			</div>
+			<div id="error-div" class="footer-row error hide">
+				<p id="message-response"></p>
+			</div>
+			<div class="footer-row">
+				<p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy"
+					target="_blank">Privacy Policy</a> and <a
+					href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+			</div>
+			<div class="footer-row align-right">
+				<p>Session expires in <span id="timer"></span></p>
+			</div>
+		</div>
+		<script>
+			grecaptcha.ready(function () {
+				grecaptcha.execute('{{recaptcha_site_key}}', {
+					action: 'submit'
+				}).then(function (token) {
+					document.getElementById('g-recaptcha-response').value = token;
+				});
+			});
+		</script>
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+		<script src="{% static 'js/js-form.js' %}"></script>
+	</body>
+</html>

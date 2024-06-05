@@ -1,0 +1,67 @@
+/* Header */
+.codrops-header {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    padding: 2em;
+}
+
+/* Content */
+.content {
+    overflow: hidden;
+    padding: 0;
+}
+
+.imgloaded .content__title,
+.imgloaded .content__text {
+    animation-name: glitch-anim-text;
+    animation-duration: var(--time-anim);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.content__title {
+    margin: 35vh 0 0 0;
+    position: relative;
+    animation-delay: calc(var(--delay-anim) + var(--time-anim) * 0.2);
+}
+
+.static__title {
+    margin: 35vh 0 0 0;
+    height: 155px;
+    width: auto;
+    position: relative;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .static__title {
+        margin: 35vh 0 0 0;
+        height: auto;
+        width: 90%;
+        position: relative;
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .content__title {
+        margin: 35vh 0 0 0;
+        width: 90%;
+        height: auto;
+        position: relative;
+        animation-delay: calc(var(--delay-anim) + var(--time-anim) * 0.2);
+    }
+}
+
+.content__title:nth-child(1) {
+    filter: url(#transmissionerror);
+}
+
+.content__title:nth-child(2) {
+    filter: grayscale(100%) contrast(100%);
+    mix-blend-mode: multiply;
+}
